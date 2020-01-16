@@ -4,7 +4,7 @@ out
 gen
 rebel.xml
 /.directory
-/gate-war/target/
+/target/
 **/target/
 **/node_modules
 **/dist
