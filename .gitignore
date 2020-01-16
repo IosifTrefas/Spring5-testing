@@ -1,0 +1,11 @@
+.idea
+*.iml
+out
+gen
+rebel.xml
+/.directory
+/gate-war/target/
+**/target/
+**/node_modules
+**/dist
+*.bak
