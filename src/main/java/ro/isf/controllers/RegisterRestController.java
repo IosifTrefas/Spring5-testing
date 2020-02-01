@@ -2,6 +2,7 @@ package ro.isf.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ro.isf.controllers.UserResource;
 import ro.isf.services.register.RegisterService;
 import ro.isf.services.register.User;
 
