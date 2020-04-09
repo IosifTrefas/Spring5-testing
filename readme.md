@@ -1,10 +1,7 @@
-https://reflectoring.io/unit-testing-spring-boot/
-
-- spring maven to run only the IT tests
-
-
-
-
-###### Other examples:
-https://mkyong.com/spring-boot/spring-boot-junit-5-mockito/
-https://www.baeldung.com/spring-boot-testing
+Rate limit examples:
+ - by request parameter - limited number of attempts in the time provided
+ - by the number of the simultaneously requests 
+ 
+ Check: RateLimitController
+ 
+ Other classes can be found but they are examples of tests in spring
