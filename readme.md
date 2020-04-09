@@ -4,4 +4,8 @@ Rate limit examples:
  
  Check: RateLimitController
  
+ Run example:
+ Run Application.java
+ Try refreshing the ![http://localhost:8080/iosif/user?userId=1](http://localhost:8080/iosif/user?userId=1) page multiple times
+ 
  Other classes can be found but they are examples of tests in spring
