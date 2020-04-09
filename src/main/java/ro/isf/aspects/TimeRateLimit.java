@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-public @interface RateLimitByTime {
+public @interface TimeRateLimit {
 
     int ms() default 1000;
 }

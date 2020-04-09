@@ -16,7 +16,7 @@ public class RegisterJpaTest {
     @Test
     @Sql("createUser.sql")
     public void testRegisteUser() {
-        UserEntity user = userRepository.findByName("Zaphod Beeblebrox");
+        UserEntity user = userRepository.findByName("Trefas Iosif");
         assertThat(user).isNotNull();
     }
 

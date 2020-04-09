@@ -3,5 +3,5 @@ INSERT INTO USER
              NAME, 
              email) 
 VALUES      (1, 
-             'Zaphod Beeblebrox', 
-             'zaphod@galaxy.net'); 
+             'Trefas Iosif',
+             'iosif.tre@gmail.com');

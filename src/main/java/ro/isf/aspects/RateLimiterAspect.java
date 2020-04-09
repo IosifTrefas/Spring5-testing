@@ -4,9 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -20,7 +18,7 @@ public class RateLimiterAspect {
 
     private Map<String, Long> userIdLastAccessedTime = Collections.synchronizedMap(new HashMap<>());
 
-    @Around("execution(public * *(.., @RateLimitByTime (*), ..))")
+    @Around("execution(public * *(.., @TimeRateLimit (*), ..))")
     public Object limitByTime(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
 
@@ -38,7 +36,7 @@ public class RateLimiterAspect {
             clearEntriesThatPassedTheLimit(timeLimit, currentTimeMillis);
             return joinPoint.proceed();
         } else {
-            throw new HttpClientErrorException(HttpStatus.TOO_MANY_REQUESTS, null, null, null);
+            throw new TimeRateLimitException(timeLimit);
         }
 
     }
@@ -52,18 +50,17 @@ public class RateLimiterAspect {
         Method method = signature.getMethod();
 
         List<Parameter> parameters = Arrays.asList(method.getParameters());
-        long numberOfRateLimitOnParameters = parameters.stream().filter(parameter -> Arrays.asList(parameter.getAnnotationsByType(RateLimitByTime.class)).size() > 0).count();
+        long numberOfRateLimitOnParameters = parameters.stream().filter(parameter -> Arrays.asList(parameter.getAnnotationsByType(TimeRateLimit.class)).size() > 0).count();
         if (numberOfRateLimitOnParameters == 1) {
-            Optional<Parameter> parameterWithLimit = parameters.stream().filter(parameter -> Arrays.asList(parameter.getAnnotationsByType(RateLimitByTime.class)).size()>0).findFirst();
-            return parameterWithLimit.get().getAnnotationsByType(RateLimitByTime.class)[0].ms();
+            Optional<Parameter> parameterWithLimit = parameters.stream().filter(parameter -> Arrays.asList(parameter.getAnnotationsByType(TimeRateLimit.class)).size() > 0).findFirst();
+            return parameterWithLimit.get().getAnnotationsByType(TimeRateLimit.class)[0].ms();
         } else {
-            throw new IllegalArgumentException("Too many annotations of type " + RateLimitByTime.class.getName());
+            throw new IllegalArgumentException("Too many annotations of type " + TimeRateLimit.class.getName());
         }
     }
 
 
-
-    @Around("execution(public * *(.., @RateLimitBySimultanousRequests (*), ..))")
+    @Around("execution(public * *(.., @SimultaneouslyRequestsRateLimit (*), ..))")
     public void limitBySimultanousRequests(ProceedingJoinPoint joinPoint) throws Throwable {
 
         semaphore.acquire();
@@ -71,3 +68,4 @@ public class RateLimiterAspect {
         semaphore.release();
     }
 }
+
